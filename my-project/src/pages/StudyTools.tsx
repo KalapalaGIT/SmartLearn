@@ -1,21 +1,43 @@
 // StudyTools.jsx
 import React, { useState } from "react";
-import { 
-  BookOpen, Brain, Award, Trophy, Calendar, FileText, Star, AlertCircle, 
-  RefreshCw, Check, Clock, ArrowUp, BarChart2, List, Settings 
+import {
+  BookOpen,
+  Brain,
+  Award,
+  Trophy,
+  Calendar,
+  FileText,
+  Star,
+  AlertCircle,
+  RefreshCw,
+  Check,
+  Clock,
+  ArrowUp,
+  BarChart2,
+  List,
+  Settings,
 } from "lucide-react";
+import {
+  getLevelTitle,
+  calculateXPForNextLevel,
+  calculateProgressPercentage,
+  ranks,
+} from "../utils/levelSystem";
 
 const StudyTools: React.FC = () => {
-  const [currentTool, setCurrentTool] = useState("quiz-generator");
-  const [showFlashcard, setShowFlashcard] = useState(false);
-  const [flashcardFlipped, setFlashcardFlipped] = useState(false);
+  const [currentTool, setCurrentTool] = useState(
+    "quiz-generator"
+  );
+  const [showFlashcard, setShowFlashcard] =
+    useState(false);
+  const [flashcardFlipped, setFlashcardFlipped] =
+    useState(false);
 
   // Dummy data
   const userProgress = {
     level: 7,
-    title: "Knowledge Seeker",
     xp: 3240,
-    xpToNextLevel: 4000,
+    xpToNextLevel: calculateXPForNextLevel(7),
     studyStreak: 12,
     dailyGoal: 85,
     rank: 17,
@@ -80,6 +102,15 @@ const StudyTools: React.FC = () => {
       },
     ],
   };
+
+  const levelTitle = getLevelTitle(
+    userProgress.level
+  );
+  const progressPercentage =
+    calculateProgressPercentage(
+      userProgress.xp,
+      userProgress.xpToNextLevel
+    );
 
   const quizQuestions = [
     {
@@ -173,31 +204,26 @@ const StudyTools: React.FC = () => {
     },
   ];
 
-  const ranks = [
-    { level: 1, title: "Beginner Scholar" },
-    { level: 5, title: "Knowledge Seeker" },
-    { level: 10, title: "Academic Adept" },
-    { level: 15, title: "Wisdom Weaver" },
-    { level: 20, title: "Learning Legend" },
-    { level: 25, title: "Genius" },
-  ];
-
   // Tab content rendering functions
   const renderStudyTools = () => (
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-4">
         <div
-          className={`cursor-pointer p-4 rounded-lg border ${currentTool === "quiz-generator"
-            ? "border-indigo-500 bg-indigo-50"
-            : "border-gray-200"
-            }`}
+          className={`cursor-pointer bg-white rounded-xl shadow p-4 hover:shadow-md transition-shadow ${
+            currentTool === "quiz-generator"
+              ? "border-2 border-indigo-500"
+              : "border border-gray-200"
+          }`}
           onClick={() =>
             setCurrentTool("quiz-generator")
           }
         >
           <div className="pb-2">
             <div className="text-lg flex items-center">
-              <Brain className="mr-2 text-indigo-600" size={20} />{" "}
+              <Brain
+                className="mr-2 text-indigo-600"
+                size={20}
+              />
               Quiz Generator
             </div>
           </div>
@@ -210,10 +236,11 @@ const StudyTools: React.FC = () => {
         </div>
 
         <div
-          className={`cursor-pointer p-4 rounded-lg border ${currentTool === "flashcards"
-            ? "border-indigo-500 bg-indigo-50"
-            : "border-gray-200"
-            }`}
+          className={`cursor-pointer bg-white rounded-xl shadow p-4 hover:shadow-md transition-shadow ${
+            currentTool === "flashcards"
+              ? "border-2 border-indigo-500"
+              : "border border-gray-200"
+          }`}
           onClick={() =>
             setCurrentTool("flashcards")
           }
@@ -223,7 +250,7 @@ const StudyTools: React.FC = () => {
               <BookOpen
                 className="mr-2 text-indigo-600"
                 size={20}
-              />{" "}
+              />
               Flashcards
             </div>
           </div>
@@ -235,10 +262,11 @@ const StudyTools: React.FC = () => {
         </div>
 
         <div
-          className={`cursor-pointer p-4 rounded-lg border ${currentTool === "learning-analytics"
-            ? "border-indigo-500 bg-indigo-50"
-            : "border-gray-200"
-            }`}
+          className={`cursor-pointer bg-white rounded-xl shadow p-4 hover:shadow-md transition-shadow ${
+            currentTool === "learning-analytics"
+              ? "border-2 border-indigo-500"
+              : "border border-gray-200"
+          }`}
           onClick={() =>
             setCurrentTool("learning-analytics")
           }
@@ -248,7 +276,7 @@ const StudyTools: React.FC = () => {
               <Trophy
                 className="mr-2 text-indigo-600"
                 size={20}
-              />{" "}
+              />
               Learning Analytics
             </div>
           </div>
@@ -262,7 +290,7 @@ const StudyTools: React.FC = () => {
       </div>
 
       {currentTool === "quiz-generator" && (
-        <div className="rounded-lg border bg-white shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow p-6">
           <div className="flex flex-col space-y-1.5 mb-4">
             <div className="text-2xl font-semibold leading-none tracking-tight">
               Physics Concepts Quiz
@@ -276,7 +304,7 @@ const StudyTools: React.FC = () => {
             {quizQuestions.map((q, index) => (
               <div
                 key={q.id}
-                className="border rounded-lg p-4 space-y-3"
+                className="border rounded-lg p-4 space-y-3 hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-start">
                   <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold mr-2 mt-1 bg-indigo-100 text-indigo-700 border-indigo-200">
@@ -290,13 +318,14 @@ const StudyTools: React.FC = () => {
                   {q.options.map((option, i) => (
                     <div
                       key={i}
-                      className="flex items-center space-x-2"
+                      className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 transition-colors"
                     >
                       <div
-                        className={`h-5 w-5 rounded-full border flex items-center justify-center ${i === q.correct
-                          ? "bg-green-100 border-green-500 text-green-600"
-                          : "border-gray-300"
-                          }`}
+                        className={`h-5 w-5 rounded-full border flex items-center justify-center ${
+                          i === q.correct
+                            ? "bg-green-100 border-green-500 text-green-600"
+                            : "border-gray-300"
+                        }`}
                       >
                         {i === q.correct && (
                           <Check size={12} />
@@ -317,10 +346,10 @@ const StudyTools: React.FC = () => {
               </div>
             ))}
             <div className="flex justify-between">
-              <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white hover:bg-gray-50">
+              <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium bg-white hover:bg-gray-50 transition-colors">
                 Save Quiz
               </button>
-              <button className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700">
+              <button className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
                 Generate New Quiz
               </button>
             </div>
@@ -329,7 +358,7 @@ const StudyTools: React.FC = () => {
       )}
 
       {currentTool === "flashcards" && (
-        <div className="border rounded-lg shadow bg-white">
+        <div className="bg-white rounded-xl shadow">
           <div className="p-6 space-y-1.5">
             <h3 className="text-xl font-semibold">
               Spaced Repetition Flashcards
@@ -354,7 +383,7 @@ const StudyTools: React.FC = () => {
                     </p>
                   </div>
                   <button
-                    className="ml-auto bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-md cursor-pointer"
+                    className="ml-auto bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-lg cursor-pointer transition-colors"
                     onClick={() =>
                       setShowFlashcard(true)
                     }
@@ -370,7 +399,7 @@ const StudyTools: React.FC = () => {
                   {flashcards.map((card) => (
                     <div
                       key={card.id}
-                      className="border rounded-lg p-3 flex justify-between items-center"
+                      className="border rounded-lg p-3 flex justify-between items-center hover:bg-gray-50 transition-colors"
                     >
                       <div>
                         <p className="font-medium">
@@ -380,7 +409,7 @@ const StudyTools: React.FC = () => {
                           Added 2 days ago
                         </p>
                       </div>
-                      <button className="border bg-white hover:bg-gray-50 px-3 py-1 rounded-md text-sm">
+                      <button className="border bg-white hover:bg-gray-50 px-3 py-1 rounded-lg text-sm transition-colors">
                         Edit
                       </button>
                     </div>
@@ -388,10 +417,10 @@ const StudyTools: React.FC = () => {
                 </div>
 
                 <div className="flex justify-between">
-                  <button className="border bg-white hover:bg-gray-50 px-4 py-2 rounded-md">
+                  <button className="border bg-white hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
                     Import From Notes
                   </button>
-                  <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-md">
+                  <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-lg transition-colors">
                     Create New Flashcard
                   </button>
                 </div>
@@ -399,10 +428,11 @@ const StudyTools: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center">
                 <div
-                  className={`w-full h-64 border rounded-lg shadow-md p-6 mb-4 flex items-center justify-center cursor-pointer transition-all duration-300 ${flashcardFlipped
-                    ? "bg-indigo-50"
-                    : "bg-white"
-                    }`}
+                  className={`w-full h-64 border rounded-lg shadow-md p-6 mb-4 flex items-center justify-center cursor-pointer transition-all duration-300 ${
+                    flashcardFlipped
+                      ? "bg-indigo-50"
+                      : "bg-white"
+                  }`}
                   onClick={() =>
                     setFlashcardFlipped(
                       !flashcardFlipped
@@ -425,16 +455,16 @@ const StudyTools: React.FC = () => {
 
                 {flashcardFlipped && (
                   <div className="grid grid-cols-4 gap-3 w-full">
-                    <button className="border-red-300 text-red-600 hover:bg-red-50 border bg-white px-4 py-2 rounded-md text-center">
+                    <button className="border-red-300 text-red-600 hover:bg-red-50 border bg-white px-4 py-2 rounded-lg text-center transition-colors">
                       Again
                     </button>
-                    <button className="border-orange-300 text-orange-600 hover:bg-orange-50 border bg-white px-4 py-2 rounded-md text-center">
+                    <button className="border-orange-300 text-orange-600 hover:bg-orange-50 border bg-white px-4 py-2 rounded-lg text-center transition-colors">
                       Hard
                     </button>
-                    <button className="border-green-300 text-green-600 hover:bg-green-50 border bg-white px-4 py-2 rounded-md text-center">
+                    <button className="border-green-300 text-green-600 hover:bg-green-50 border bg-white px-4 py-2 rounded-lg text-center transition-colors">
                       Good
                     </button>
-                    <button className="border-blue-300 text-blue-600 hover:bg-blue-50 border bg-white px-4 py-2 rounded-md text-center">
+                    <button className="border-blue-300 text-blue-600 hover:bg-blue-50 border bg-white px-4 py-2 rounded-lg text-center transition-colors">
                       Easy
                     </button>
                   </div>
@@ -442,7 +472,7 @@ const StudyTools: React.FC = () => {
 
                 <div className="w-full flex justify-between mt-6">
                   <button
-                    className="border bg-white hover:bg-gray-50 px-4 py-2 rounded-md"
+                    className="border bg-white hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
                     onClick={() => {
                       setShowFlashcard(false);
                       setFlashcardFlipped(false);
@@ -461,9 +491,11 @@ const StudyTools: React.FC = () => {
       )}
 
       {currentTool === "learning-analytics" && (
-        <div className="border rounded-lg shadow bg-white p-6">
+        <div className="bg-white rounded-xl shadow p-6">
           <div className="mb-4">
-            <div className="text-xl font-semibold">Learning Analytics</div>
+            <div className="text-xl font-semibold">
+              Learning Analytics
+            </div>
             <div className="text-sm text-gray-500">
               Identify strengths and weaknesses in
               your learning
@@ -481,7 +513,10 @@ const StudyTools: React.FC = () => {
                     <span>72%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-indigo-600 h-2 rounded-full" style={{ width: "72%" }}></div>
+                    <div
+                      className="bg-indigo-600 h-2 rounded-full"
+                      style={{ width: "72%" }}
+                    ></div>
                   </div>
                 </div>
                 <div>
@@ -490,7 +525,10 @@ const StudyTools: React.FC = () => {
                     <span>83%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-indigo-600 h-2 rounded-full" style={{ width: "83%" }}></div>
+                    <div
+                      className="bg-indigo-600 h-2 rounded-full"
+                      style={{ width: "83%" }}
+                    ></div>
                   </div>
                 </div>
                 <div>
@@ -499,7 +537,10 @@ const StudyTools: React.FC = () => {
                     <span>64%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-indigo-600 h-2 rounded-full" style={{ width: "64%" }}></div>
+                    <div
+                      className="bg-indigo-600 h-2 rounded-full"
+                      style={{ width: "64%" }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -530,7 +571,9 @@ const StudyTools: React.FC = () => {
                             <div className="w-24 bg-gray-200 rounded-full h-1.5 mr-2">
                               <div
                                 className="bg-orange-500 h-1.5 rounded-full"
-                                style={{ width: `${area.masteryLevel}%` }}
+                                style={{
+                                  width: `${area.masteryLevel}%`,
+                                }}
                               ></div>
                             </div>
                             <span className="text-xs">
@@ -539,7 +582,7 @@ const StudyTools: React.FC = () => {
                             </span>
                           </div>
                         </div>
-                        <button className="ml-auto px-3 py-1 text-xs border border-orange-300 text-orange-600 rounded-md bg-white hover:bg-orange-50">
+                        <button className="ml-auto px-3 py-1 text-xs border border-orange-300 text-orange-600 rounded-lg bg-white hover:bg-orange-50 transition-colors">
                           Focus Training
                         </button>
                       </div>
@@ -642,229 +685,186 @@ const StudyTools: React.FC = () => {
 
   const renderGamification = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-4">
-        <div className="border rounded-lg shadow bg-white">
-          <div className="p-4 border-b">
-            <div className="text-lg flex items-center">
-              <Star className="mr-2 text-indigo-600" size={20} />{" "}
-              XP & Level
+      <div className="bg-white rounded-xl shadow p-6">
+        <div className="flex flex-col items-center text-center">
+          <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl font-bold mb-2">
+            {userProgress.level}
+          </div>
+          <h3 className="font-medium">
+            {levelTitle}
+          </h3>
+          <div className="w-full mt-2">
+            <div className="flex justify-between text-xs mb-1">
+              <span>{userProgress.xp} XP</span>
+              <span>
+                {userProgress.xpToNextLevel} XP
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="bg-indigo-600 h-2 rounded-full"
+                style={{
+                  width: `${progressPercentage}%`,
+                }}
+              ></div>
             </div>
           </div>
-          <div className="p-4">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-xl font-bold mb-2">
-                {userProgress.level}
-              </div>
-              <h3 className="font-medium">
-                {userProgress.title}
-              </h3>
-              <div className="w-full mt-2">
-                <div className="flex justify-between text-xs mb-1">
-                  <span>
-                    {userProgress.xp} XP
-                  </span>
-                  <span>
-                    {userProgress.xpToNextLevel}{" "}
-                    XP
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-indigo-600 h-2 rounded-full"
-                    style={{ width: `${(userProgress.xp / userProgress.xpToNextLevel) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-              <p className="text-xs text-gray-500 mt-2">
-                {userProgress.xpToNextLevel -
-                  userProgress.xp}{" "}
-                XP to level{" "}
-                {userProgress.level + 1}
-              </p>
-            </div>
-          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            {userProgress.xpToNextLevel -
+              userProgress.xp}{" "}
+            XP to level {userProgress.level + 1}
+          </p>
         </div>
+      </div>
 
-        <div className="border rounded-lg shadow bg-white">
-          <div className="p-4 border-b">
-            <div className="text-lg flex items-center">
-              <Trophy
-                className="mr-2 text-indigo-600"
-                size={20}
-              />{" "}
-              Rank
-            </div>
+      <div className="bg-white rounded-xl shadow p-6">
+        <div className="flex flex-col items-center">
+          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">
+            Rank #{userProgress.rank}
           </div>
-          <div className="p-4">
-            <div className="flex flex-col items-center">
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">
-                Rank #{userProgress.rank}
-              </div>
-              <p className="text-sm">
-                Top 5% of all users
-              </p>
+          <p className="text-sm">
+            Top 5% of all users
+          </p>
 
-              <div className="w-full mt-4 space-y-2">
-                {ranks.map((rank, i) => (
-                  <div
-                    key={i}
-                    className={`flex items-center ${rank.level <=
-                      userProgress.level
-                      ? "text-indigo-600"
-                      : "text-gray-400"
-                      }`}
-                  >
-                    <div
-                      className={`w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 ${rank.level <=
-                        userProgress.level
-                        ? "bg-indigo-100"
-                        : "bg-gray-100"
-                        }`}
-                    >
-                      {rank.level <=
-                        userProgress.level ? (
-                        <Check size={12} />
-                      ) : null}
-                    </div>
-                    <span className="text-sm">
-                      {rank.title} (Level{" "}
-                      {rank.level})
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="border rounded-lg shadow bg-white">
-          <div className="p-4 border-b">
-            <div className="text-lg flex items-center">
-              <ArrowUp
-                className="mr-2 text-indigo-600"
-                size={20}
-              />{" "}
-              Streaks & Goals
-            </div>
-          </div>
-          <div className="p-4">
-            <div className="flex flex-col items-center">
-              <div className="text-center mb-3">
-                <h3 className="text-2xl font-bold text-orange-500">
-                  {userProgress.studyStreak} days
-                </h3>
-                <p className="text-sm">
-                  Current study streak
-                </p>
-              </div>
-
-              <div className="w-full mt-2">
-                <div className="flex justify-between text-xs mb-1">
-                  <span>Today's goal</span>
-                  <span>
-                    {userProgress.dailyGoal}%
-                  </span>
+          <div className="w-full mt-4 space-y-2">
+            {ranks.map((rank, i) => (
+              <div
+                key={i}
+                className={`flex items-center ${
+                  rank.level <= userProgress.level
+                    ? "text-indigo-600"
+                    : "text-gray-400"
+                }`}
+              >
+                <div
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 ${
+                    rank.level <=
+                    userProgress.level
+                      ? "bg-indigo-100"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  {rank.level <=
+                  userProgress.level ? (
+                    <Check size={12} />
+                  ) : null}
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-indigo-600 h-2 rounded-full"
-                    style={{ width: `${userProgress.dailyGoal}%` }}
-                  ></div>
-                </div>
+                <span className="text-sm">
+                  {rank.title} (Level {rank.level}
+                  )
+                </span>
               </div>
-
-              <div className="mt-4 grid grid-cols-7 gap-1 w-full">
-                {[...Array(7)].map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-6 rounded ${i < 5
-                      ? "bg-green-400"
-                      : "bg-gray-200"
-                      }`}
-                  ></div>
-                ))}
-              </div>
-              <p className="text-xs text-gray-500 mt-1">
-                Last 7 days
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
-        <div className="border rounded-lg shadow bg-white">
-          <div className="p-4 border-b">
-            <div className="text-lg font-medium">Leaderboard</div>
-            <div className="text-sm text-gray-500">
-              How you compare to other students
+      <div className="bg-white rounded-xl shadow p-6">
+        <div className="flex flex-col items-center">
+          <div className="text-center mb-3">
+            <h3 className="text-2xl font-bold text-orange-500">
+              {userProgress.studyStreak} days
+            </h3>
+            <p className="text-sm">
+              Current study streak
+            </p>
+          </div>
+
+          <div className="w-full mt-2">
+            <div className="flex justify-between text-xs mb-1">
+              <span>Today's goal</span>
+              <span>
+                {userProgress.dailyGoal}%
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="bg-indigo-600 h-2 rounded-full"
+                style={{
+                  width: `${userProgress.dailyGoal}%`,
+                }}
+              ></div>
             </div>
           </div>
-          <div className="p-4">
-            <div className="space-y-2">
-              {leaderboard.map((user, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center p-2 rounded-md ${i === 2
-                    ? "bg-indigo-50 border border-indigo-200"
-                    : ""
-                    }`}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${i === 0
-                      ? "bg-yellow-100 text-yellow-700"
-                      : i === 1
-                        ? "bg-gray-100 text-gray-700"
-                        : i === 2
-                          ? "bg-orange-100 text-orange-700"
-                          : "bg-indigo-100 text-indigo-700"
-                      }`}
-                  >
-                    {user.avatar}
-                  </div>
-                  <div className="flex-grow">
-                    <div className="flex justify-between">
-                      <span className="font-medium">
-                        {user.name}
-                      </span>
-                      <span className="text-sm">
-                        {user.xp.toLocaleString()}{" "}
-                        XP
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-xs text-gray-500">
-                      <span>
-                        Level {user.level}
-                      </span>
-                      <span>#{user.rank}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
 
-              <div className="mt-4 flex items-center p-2 rounded-md bg-gray-50">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center mr-3">
-                  👨‍🎓
+          <div className="mt-4 grid grid-cols-7 gap-1 w-full">
+            {[...Array(7)].map((_, i) => (
+              <div
+                key={i}
+                className={`h-6 rounded ${
+                  i < 5
+                    ? "bg-green-400"
+                    : "bg-gray-200"
+                }`}
+              ></div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            Last 7 days
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl shadow p-6">
+        <div className="space-y-2">
+          {leaderboard.map((user, i) => (
+            <div
+              key={i}
+              className={`flex items-center p-2 rounded-lg ${
+                i === 2
+                  ? "bg-indigo-50 border border-indigo-200"
+                  : ""
+              }`}
+            >
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
+                  i === 0
+                    ? "bg-yellow-100 text-yellow-700"
+                    : i === 1
+                    ? "bg-gray-100 text-gray-700"
+                    : i === 2
+                    ? "bg-orange-100 text-orange-700"
+                    : "bg-indigo-100 text-indigo-700"
+                }`}
+              >
+                {user.avatar}
+              </div>
+              <div className="flex-grow">
+                <div className="flex justify-between">
+                  <span className="font-medium">
+                    {user.name}
+                  </span>
+                  <span className="text-sm">
+                    {user.xp.toLocaleString()} XP
+                  </span>
                 </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between">
-                    <span className="font-medium">
-                      You
-                    </span>
-                    <span className="text-sm">
-                      {userProgress.xp.toLocaleString()}{" "}
-                      XP
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-500">
-                    <span>
-                      Level {userProgress.level}
-                    </span>
-                    <span>
-                      #{userProgress.rank}
-                    </span>
-                  </div>
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>Level {user.level}</span>
+                  <span>#{user.rank}</span>
                 </div>
+              </div>
+            </div>
+          ))}
+
+          <div className="mt-4 flex items-center p-2 rounded-lg bg-gray-50">
+            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center mr-3">
+              👨‍🎓
+            </div>
+            <div className="flex-grow">
+              <div className="flex justify-between">
+                <span className="font-medium">
+                  You
+                </span>
+                <span className="text-sm">
+                  {userProgress.xp.toLocaleString()}{" "}
+                  XP
+                </span>
+              </div>
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>
+                  Level {userProgress.level}
+                </span>
+                <span>#{userProgress.rank}</span>
               </div>
             </div>
           </div>
@@ -872,6 +872,59 @@ const StudyTools: React.FC = () => {
       </div>
     </div>
   );
+
+  return (
+    <div className="flex h-screen bg-gray-100">
+      <div className="flex-1 overflow-y-auto">
+        <header className="bg-white p-4 shadow-sm">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-800">
+              SmartLearnAI
+            </h1>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm bg-green-100 text-green-800 py-1 px-3 rounded-full">
+                {levelTitle}
+              </span>
+              <div className="flex items-center">
+                <div className="h-2 w-32 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-green-500 rounded-full"
+                    style={{
+                      width: `${progressPercentage}%`,
+                    }}
+                  ></div>
+                </div>
+                <span className="ml-2 text-xs text-gray-600">
+                  {userProgress.xp}/
+                  {userProgress.xpToNextLevel} XP
+                </span>
+              </div>
+              <div className="w-8 h-8 bg-indigo-200 rounded-full flex items-center justify-center">
+                <span className="text-indigo-700 font-medium">
+                  JS
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <BookOpen
+              className="mr-2"
+              size={24}
+            />
+            Study Tools
+          </h2>
+
+          <div className="space-y-6">
+            {renderStudyTools()}
+            {renderGamification()}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
-    
-  export default StudyTools;
+
+export default StudyTools;
