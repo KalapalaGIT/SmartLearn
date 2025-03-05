@@ -1,14 +1,23 @@
-import { Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import Dashboard from './pages/Dashboard';
 import Notes from './pages/Notes';
+import Sidebar from './components/Sidebar';
+import StudyTools from './pages/StudyTools';
 
-function App() {
+const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("Dashboard");
+  
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/notes" element={<Notes />} />
-    </Routes>
+    <div className='flex'>
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className='flex-1 p-4'>
+        {activeTab === "Dashboard" && <Dashboard />}
+        {activeTab === "Notes" && <Notes />}
+        {activeTab === "StudyTools" && <StudyTools />}
+      </div>
+    </div>
+    
   );
-}
+};
 
 export default App;

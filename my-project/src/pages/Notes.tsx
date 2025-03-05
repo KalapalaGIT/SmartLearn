@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Search, FolderPlus, Tag, Upload, MoreHorizontal, Star, FilePlus } from 'lucide-react';
-import Sidebar from '../components/Sidebar';
-import Dashboard from './Dashboard';
 
 // Sample data
 const collections = [
@@ -18,8 +16,7 @@ const recentNotes = [
   { id: 3, title: "Integration Techniques", collection: "Mathematics", lastEdited: "3 days ago", tags: ["difficult", "exam"] }
 ];
 
-const Notes = () => {
-  const [activeTab, setActiveTab] = useState<string>("Notes");
+const Notes: React.FC = () => {
   const [selectedCollection, setSelectedCollection] = useState<number | null>(null);
   const [selectedNote, setSelectedNote] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,14 +42,6 @@ const Notes = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex-grow p-4">
-        {activeTab === "Dashboard" && <Dashboard />}
-        {activeTab === "Notes" && <Notes />}
-        {activeTab === "study" && <p>StudyTools</p>}
-        {activeTab === "achievements" && <p>Achievements</p>}
-        {activeTab === "settings" && <p>Settings</p>}
-      </div>
 
       {/* Collections Sidebar */}
       <div className="w-64 bg-white border-r">

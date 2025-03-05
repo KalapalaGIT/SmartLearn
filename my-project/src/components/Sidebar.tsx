@@ -1,4 +1,6 @@
+// Dashboard
 import { BarChart2, BookOpen, List, Award, Settings } from 'lucide-react';
+import Dashboard from '../pages/Dashboard';
 
 interface SidebarProps {
   activeTab: string;
@@ -25,8 +27,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => (
         <BookOpen className="text-white" size={20} />
       </button>
       <button 
-        className={`p-2 rounded-lg ${activeTab === "study" ? "bg-indigo-600" : ""}`}
-        onClick={() => setActiveTab("study")}
+        className={`p-2 rounded-lg ${activeTab === "StudyTools" ? "bg-indigo-600" : ""}`}
+        onClick={() => setActiveTab("StudyTools")}
       >
         <List className="text-white" size={20} />
       </button>

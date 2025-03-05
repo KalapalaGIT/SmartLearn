@@ -1,8 +1,4 @@
-import { useState } from 'react';
 import { Calendar, Clock, BarChart2} from 'lucide-react';
-import Sidebar from '../components/Sidebar';
-import Notes from './Notes';
-
 // Sample data
 const upcomingEvents = [
   { id: 1, title: "Biology Exam", date: "Mar 15", priority: "high", type: "exam" },
@@ -25,19 +21,10 @@ const progressData = [
   { subject: "Physics", progress: 80 }
 ];
 
-const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState<string>("Dashboard");
-
+const Dashboard: React.FC = () => {
+  
   return (
     <div className="flex h-screen bg-gray-100">
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex-grow p-4">
-        {activeTab === "Dashboard" && <Dashboard />}
-        {activeTab === "Notes" && <Notes />}
-        {activeTab === "study" && <p>StudyTools</p>}
-        {activeTab === "achievements" && <p>Achievements</p>}
-        {activeTab === "settings" && <p>Settings</p>}
-      </div>
 
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto">
@@ -75,7 +62,7 @@ const Dashboard = () => {
               
               <div className="border rounded-lg overflow-hidden">
                 <div className="grid grid-cols-7 bg-gray-50 border-b">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(day => (
                     <div key={day} className="py-2 text-center text-sm font-medium text-gray-600">{day}</div>
                   ))}
                 </div>
