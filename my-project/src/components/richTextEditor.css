@@ -1,0 +1,105 @@
+/* Editor styles */
+.ProseMirror {
+  padding: 1rem;
+  min-height: 500px;
+  outline: none;
+}
+
+/* Heading styles */
+.ProseMirror h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.ProseMirror h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.ProseMirror h3 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+/* Paragraph styles */
+.ProseMirror p {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* List styles */
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Task list styles */
+.ProseMirror ul[data-type="taskList"] {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+  margin-right: 0.5rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1;
+}
+
+/* Code block styles */
+.ProseMirror pre {
+  background-color: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+}
+
+/* Highlight styles */
+.ProseMirror mark {
+  background-color: #fef3c7;
+}
+
+/* Bold and italic styles */
+.ProseMirror strong {
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.ProseMirror em {
+  font-style: italic;
+  color: #1f2937;
+}
+
+/* List item styles */
+.ProseMirror li {
+  margin-bottom: 0.25rem;
+}
+
+/* Code styles */
+.ProseMirror code {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+} 

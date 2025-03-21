@@ -6,7 +6,6 @@ import {
   Calendar,
   Settings,
 } from "lucide-react";
-import Dashboard from "../pages/Dashboard";
 
 interface SidebarProps {
   activeTab: string;
@@ -19,12 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => (
   <div className="w-16 bg-indigo-700 flex flex-col items-center py-8">
     <div className="w-16 bg-indigo-700 flex flex-col items-center py-8">
-      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mb-8">
-        <span className="text-indigo-700 font-bold text-xl">
-          S
-        </span>
-      </div>
-      <div className="flex flex-col items-center space-y-8">
+      <div className="flex flex-col items-center space-y-10">
         <button
           className={`p-2 rounded-lg ${
             activeTab === "Dashboard"
