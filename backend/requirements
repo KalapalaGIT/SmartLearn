@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+SQLAlchemy
+asyncpg
+alembic
+python-dotenv
+passlib[bcrypt]  # For password hashing
+pyjwt  # For JWT authentication
+openai  # For AI chatbot
+httpx  # For making async API requests
