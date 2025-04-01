@@ -5,10 +5,7 @@ export default function Home() {
   return (
     <div className="flex justify-between">
       <div>
-        <h1>Hello World</h1>
-        <Link href="/notes">Notes</Link>
-        <br />
-        <Link href="/studytools">Studytools</Link>
+        <h1>Left</h1>
       </div>
       <div>
         <h1>Middle</h1>
